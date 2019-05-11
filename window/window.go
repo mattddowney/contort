@@ -18,7 +18,28 @@ var (
 	procIsWindowVisible = user32.NewProc("IsWindowVisible")
 	procSetWindowLongA  = user32.NewProc("SetWindowLongA")
 	procShowWindow      = user32.NewProc("ShowWindow")
+
+	maximizeButton = 0x00010000
+	minimizeButton = 0x00020000
 )
+
+func addStyle(hwnd syscall.Handle, ws int) {
+	gwlStyle := -16
+	gwlStylePtr := uintptr(gwlStyle)
+
+	windowStyle, _, _ := procGetWindowLongA.Call(uintptr(hwnd), gwlStylePtr)
+	windowStyle = windowStyle | uintptr(ws)
+	procSetWindowLongA.Call(uintptr(hwnd), gwlStylePtr, windowStyle)
+}
+
+func removeStyle(hwnd syscall.Handle, ws int) {
+	gwlStyle := -16
+	gwlStylePtr := uintptr(gwlStyle)
+
+	windowStyle, _, _ := procGetWindowLongA.Call(uintptr(hwnd), gwlStylePtr)
+	windowStyle = windowStyle &^ uintptr(ws)
+	procSetWindowLongA.Call(uintptr(hwnd), gwlStylePtr, windowStyle)
+}
 
 // DisableCloseButton disables the close button from window with the hwnd handle
 // It can be re-enabled by calling EnableCloseButton
@@ -28,21 +49,11 @@ func DisableCloseButton(hwnd syscall.Handle) {
 }
 
 func DisableMaximizeButton(hwnd syscall.Handle) {
-	gwlStyle := -16
-	gwlStylePtr := uintptr(gwlStyle)
-
-	windowStyle, _, _ := procGetWindowLongA.Call(uintptr(hwnd), gwlStylePtr)
-	windowStyle = windowStyle &^ 0x00010000
-	procSetWindowLongA.Call(uintptr(hwnd), gwlStylePtr, windowStyle)
+	removeStyle(hwnd, maximizeButton)
 }
 
 func DisableMinimizeButton(hwnd syscall.Handle) {
-	gwlStyle := -16
-	gwlStylePtr := uintptr(gwlStyle)
-
-	windowStyle, _, _ := procGetWindowLongA.Call(uintptr(hwnd), gwlStylePtr)
-	windowStyle = windowStyle &^ 0x00020000
-	procSetWindowLongA.Call(uintptr(hwnd), gwlStylePtr, windowStyle)
+	removeStyle(hwnd, minimizeButton)
 }
 
 // EnableCloseButton enables the close button on the window with the hwnd handle
@@ -51,21 +62,11 @@ func EnableCloseButton(hwnd syscall.Handle) {
 }
 
 func EnableMaximizeButton(hwnd syscall.Handle) {
-	gwlStyle := -16
-	gwlStylePtr := uintptr(gwlStyle)
-
-	windowStyle, _, _ := procGetWindowLongA.Call(uintptr(hwnd), gwlStylePtr)
-	windowStyle = windowStyle | 0x00010000
-	procSetWindowLongA.Call(uintptr(hwnd), gwlStylePtr, windowStyle)
+	addStyle(hwnd, maximizeButton)
 }
 
 func EnableMinimizeButton(hwnd syscall.Handle) {
-	gwlStyle := -16
-	gwlStylePtr := uintptr(gwlStyle)
-
-	windowStyle, _, _ := procGetWindowLongA.Call(uintptr(hwnd), gwlStylePtr)
-	windowStyle = windowStyle | 0x00020000
-	procSetWindowLongA.Call(uintptr(hwnd), gwlStylePtr, windowStyle)
+	addStyle(hwnd, minimizeButton)
 }
 
 // GetWindowHandle returns the handle of the window where the title contains
