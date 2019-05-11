@@ -27,6 +27,15 @@ func DisableCloseButton(hwnd syscall.Handle) {
 	procDeleteMenu.Call(hmenu, 0xF060, 0)
 }
 
+func DisableMaximizeButton(hwnd syscall.Handle) {
+	gwlStyle := -16
+	gwlStylePtr := uintptr(gwlStyle)
+
+	windowStyle, _, _ := procGetWindowLongA.Call(uintptr(hwnd), gwlStylePtr)
+	windowStyle = windowStyle &^ 0x00010000
+	procSetWindowLongA.Call(uintptr(hwnd), gwlStylePtr, windowStyle)
+}
+
 func DisableMinimizeButton(hwnd syscall.Handle) {
 	gwlStyle := -16
 	gwlStylePtr := uintptr(gwlStyle)
@@ -39,6 +48,15 @@ func DisableMinimizeButton(hwnd syscall.Handle) {
 // EnableCloseButton enables the close button on the window with the hwnd handle
 func EnableCloseButton(hwnd syscall.Handle) {
 	procGetSystemMenu.Call(uintptr(hwnd), 1)
+}
+
+func EnableMaximizeButton(hwnd syscall.Handle) {
+	gwlStyle := -16
+	gwlStylePtr := uintptr(gwlStyle)
+
+	windowStyle, _, _ := procGetWindowLongA.Call(uintptr(hwnd), gwlStylePtr)
+	windowStyle = windowStyle | 0x00010000
+	procSetWindowLongA.Call(uintptr(hwnd), gwlStylePtr, windowStyle)
 }
 
 func EnableMinimizeButton(hwnd syscall.Handle) {
