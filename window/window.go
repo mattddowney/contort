@@ -41,17 +41,21 @@ func removeStyle(hwnd syscall.Handle, ws int) {
 	procSetWindowLongA.Call(uintptr(hwnd), gwlStylePtr, windowStyle)
 }
 
-// DisableCloseButton disables the close button from window with the hwnd handle
+// DisableCloseButton disables the close button on the window with the hwnd handle
 // It can be re-enabled by calling EnableCloseButton
 func DisableCloseButton(hwnd syscall.Handle) {
 	hmenu, _, _ := procGetSystemMenu.Call(uintptr(hwnd), 0)
 	procDeleteMenu.Call(hmenu, 0xF060, 0)
 }
 
+// DisableMaximizeButton disables the maximize button on the window with the hwnd handle
+// It can be re-enabled by calling EnableMaximizeButton
 func DisableMaximizeButton(hwnd syscall.Handle) {
 	removeStyle(hwnd, maximizeButton)
 }
 
+// DisableMinimizeButton disables the minimize button on the window with the hwnd handle
+// It can be re-enabled by calling EnableMinimizeButton
 func DisableMinimizeButton(hwnd syscall.Handle) {
 	removeStyle(hwnd, minimizeButton)
 }
@@ -61,10 +65,12 @@ func EnableCloseButton(hwnd syscall.Handle) {
 	procGetSystemMenu.Call(uintptr(hwnd), 1)
 }
 
+// EnableMaximizeButton enables the maximize button on the window with the hwnd handle
 func EnableMaximizeButton(hwnd syscall.Handle) {
 	addStyle(hwnd, maximizeButton)
 }
 
+// EnableMinimizeButton enables the minimize button on the window with the hwnd handle
 func EnableMinimizeButton(hwnd syscall.Handle) {
 	addStyle(hwnd, minimizeButton)
 }
