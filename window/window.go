@@ -13,8 +13,10 @@ var (
 	procDeleteMenu      = user32.NewProc("DeleteMenu")
 	procEnumWindows     = user32.NewProc("EnumWindows")
 	procGetSystemMenu   = user32.NewProc("GetSystemMenu")
+	procGetWindowLongA  = user32.NewProc("GetWindowLongA")
 	procGetWindowTextW  = user32.NewProc("GetWindowTextW")
 	procIsWindowVisible = user32.NewProc("IsWindowVisible")
+	procSetWindowLongA  = user32.NewProc("SetWindowLongA")
 	procShowWindow      = user32.NewProc("ShowWindow")
 )
 
@@ -25,9 +27,27 @@ func DisableCloseButton(hwnd syscall.Handle) {
 	procDeleteMenu.Call(hmenu, 0xF060, 0)
 }
 
+func DisableMinimizeButton(hwnd syscall.Handle) {
+	gwlStyle := -16
+	gwlStylePtr := uintptr(gwlStyle)
+
+	windowStyle, _, _ := procGetWindowLongA.Call(uintptr(hwnd), gwlStylePtr)
+	windowStyle = windowStyle &^ 0x00020000
+	procSetWindowLongA.Call(uintptr(hwnd), gwlStylePtr, windowStyle)
+}
+
 // EnableCloseButton enables the close button on the window with the hwnd handle
 func EnableCloseButton(hwnd syscall.Handle) {
 	procGetSystemMenu.Call(uintptr(hwnd), 1)
+}
+
+func EnableMinimizeButton(hwnd syscall.Handle) {
+	gwlStyle := -16
+	gwlStylePtr := uintptr(gwlStyle)
+
+	windowStyle, _, _ := procGetWindowLongA.Call(uintptr(hwnd), gwlStylePtr)
+	windowStyle = windowStyle | 0x00020000
+	procSetWindowLongA.Call(uintptr(hwnd), gwlStylePtr, windowStyle)
 }
 
 // GetWindowHandle returns the handle of the window where the title contains
