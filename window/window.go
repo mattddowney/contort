@@ -19,62 +19,7 @@ var (
 	procSetMenu         = user32.NewProc("SetMenu")
 	procSetWindowLongA  = user32.NewProc("SetWindowLongA")
 	procShowWindow      = user32.NewProc("ShowWindow")
-
-	maximizeButton = 0x00010000
-	minimizeButton = 0x00020000
 )
-
-func addStyle(hwnd syscall.Handle, ws int) {
-	gwlStyle := -16
-	gwlStylePtr := uintptr(gwlStyle)
-
-	windowStyle, _, _ := procGetWindowLongA.Call(uintptr(hwnd), gwlStylePtr)
-	windowStyle = windowStyle | uintptr(ws)
-	procSetWindowLongA.Call(uintptr(hwnd), gwlStylePtr, windowStyle)
-}
-
-func removeStyle(hwnd syscall.Handle, ws int) {
-	gwlStyle := -16
-	gwlStylePtr := uintptr(gwlStyle)
-
-	windowStyle, _, _ := procGetWindowLongA.Call(uintptr(hwnd), gwlStylePtr)
-	windowStyle = windowStyle &^ uintptr(ws)
-	procSetWindowLongA.Call(uintptr(hwnd), gwlStylePtr, windowStyle)
-}
-
-// DisableCloseButton disables the close button on the window with the hwnd handle
-// It can be re-enabled by calling EnableCloseButton
-func DisableCloseButton(hwnd syscall.Handle) {
-	hmenu, _, _ := procGetSystemMenu.Call(uintptr(hwnd), 0)
-	procDeleteMenu.Call(hmenu, 0xF060, 0)
-}
-
-// DisableMaximizeButton disables the maximize button on the window with the hwnd handle
-// It can be re-enabled by calling EnableMaximizeButton
-func DisableMaximizeButton(hwnd syscall.Handle) {
-	removeStyle(hwnd, maximizeButton)
-}
-
-// DisableMinimizeButton disables the minimize button on the window with the hwnd handle
-// It can be re-enabled by calling EnableMinimizeButton
-func DisableMinimizeButton(hwnd syscall.Handle) {
-	removeStyle(hwnd, minimizeButton)
-}
-
-// EnableCloseButton enables the close button on the window with the hwnd handle
-func EnableCloseButton(hwnd syscall.Handle) {
-	procGetSystemMenu.Call(uintptr(hwnd), 1)
-}
-
-// EnableMaximizeButton enables the maximize button on the window with the hwnd handle
-func EnableMaximizeButton(hwnd syscall.Handle) {
-	addStyle(hwnd, maximizeButton)
-}
-
-// EnableMinimizeButton enables the minimize button on the window with the hwnd handle
-func EnableMinimizeButton(hwnd syscall.Handle) {
-	addStyle(hwnd, minimizeButton)
-}
 
 // GetWindowHandle returns the handle of the window where the title contains
 // the substring given by title
@@ -114,47 +59,4 @@ func GetWindowHandle(title string) (syscall.Handle, error) {
 	}
 
 	return hwnd, nil
-}
-
-// Hide the window given by hwnd from the user
-func Hide(hwnd syscall.Handle) {
-	procShowWindow.Call(uintptr(hwnd), 0)
-}
-
-// IsVisible returns true if the window is visible, false if it is not
-// Hidden windows can be made visible by calling Show
-func IsVisible(hwnd syscall.Handle) bool {
-	ret, _, _ := procIsWindowVisible.Call(uintptr(hwnd))
-
-	if ret == 1 {
-		return true
-	}
-
-	return false
-}
-
-// Maximize the window with the given hwnd handle
-func Maximize(hwnd syscall.Handle) {
-	procShowWindow.Call(uintptr(hwnd), 3)
-}
-
-// Minimize the window with the given hwnd handle
-func Minimize(hwnd syscall.Handle) {
-	procShowWindow.Call(uintptr(hwnd), 6)
-}
-
-// RemoveMenu removes the menu from the windo with the given hwnd window
-func RemoveMenu(hwnd syscall.Handle) {
-	procSetMenu.Call(uintptr(hwnd), uintptr(unsafe.Pointer(nil)))
-}
-
-// Restore the window with the given hwnd handle to it's previous state
-// before minimizing or maximizing
-func Restore(hwnd syscall.Handle) {
-	procShowWindow.Call(uintptr(hwnd), 9)
-}
-
-// Show unhides the window with the given hwnd handle
-func Show(hwnd syscall.Handle) {
-	procShowWindow.Call(uintptr(hwnd), 5)
 }
