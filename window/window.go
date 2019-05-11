@@ -16,6 +16,7 @@ var (
 	procGetWindowLongA  = user32.NewProc("GetWindowLongA")
 	procGetWindowTextW  = user32.NewProc("GetWindowTextW")
 	procIsWindowVisible = user32.NewProc("IsWindowVisible")
+	procSetMenu         = user32.NewProc("SetMenu")
 	procSetWindowLongA  = user32.NewProc("SetWindowLongA")
 	procShowWindow      = user32.NewProc("ShowWindow")
 
@@ -140,6 +141,11 @@ func Maximize(hwnd syscall.Handle) {
 // Minimize the window with the given hwnd handle
 func Minimize(hwnd syscall.Handle) {
 	procShowWindow.Call(uintptr(hwnd), 6)
+}
+
+// RemoveMenu removes the menu from the windo with the given hwnd window
+func RemoveMenu(hwnd syscall.Handle) {
+	procSetMenu.Call(uintptr(hwnd), uintptr(unsafe.Pointer(nil)))
 }
 
 // Restore the window with the given hwnd handle to it's previous state
