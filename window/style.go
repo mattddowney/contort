@@ -14,18 +14,18 @@ func addStyle(hwnd syscall.Handle, ws int) {
 	gwlStyle := -16
 	gwlStylePtr := uintptr(gwlStyle)
 
-	windowStyle, _, _ := procGetWindowLongA.Call(uintptr(hwnd), gwlStylePtr)
+	windowStyle, _, _ := procGetWindowLongW.Call(uintptr(hwnd), gwlStylePtr)
 	windowStyle = windowStyle | uintptr(ws)
-	procSetWindowLongA.Call(uintptr(hwnd), gwlStylePtr, windowStyle)
+	procSetWindowLongW.Call(uintptr(hwnd), gwlStylePtr, windowStyle)
 }
 
 func removeStyle(hwnd syscall.Handle, ws int) {
 	gwlStyle := -16
 	gwlStylePtr := uintptr(gwlStyle)
 
-	windowStyle, _, _ := procGetWindowLongA.Call(uintptr(hwnd), gwlStylePtr)
+	windowStyle, _, _ := procGetWindowLongW.Call(uintptr(hwnd), gwlStylePtr)
 	windowStyle = windowStyle &^ uintptr(ws)
-	procSetWindowLongA.Call(uintptr(hwnd), gwlStylePtr, windowStyle)
+	procSetWindowLongW.Call(uintptr(hwnd), gwlStylePtr, windowStyle)
 }
 
 // DisableMaximizeButton disables the maximize button on the window with the hwnd handle

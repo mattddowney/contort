@@ -13,11 +13,11 @@ var (
 	procDeleteMenu      = user32.NewProc("DeleteMenu")
 	procEnumWindows     = user32.NewProc("EnumWindows")
 	procGetSystemMenu   = user32.NewProc("GetSystemMenu")
-	procGetWindowLongA  = user32.NewProc("GetWindowLongA")
+	procGetWindowLongW  = user32.NewProc("GetWindowLongW")
 	procGetWindowTextW  = user32.NewProc("GetWindowTextW")
 	procIsWindowVisible = user32.NewProc("IsWindowVisible")
 	procSetMenu         = user32.NewProc("SetMenu")
-	procSetWindowLongA  = user32.NewProc("SetWindowLongA")
+	procSetWindowLongW  = user32.NewProc("SetWindowLongW")
 	procShowWindow      = user32.NewProc("ShowWindow")
 )
 
