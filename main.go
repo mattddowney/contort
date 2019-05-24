@@ -53,16 +53,16 @@ func main() {
 			os.Exit(1)
 		}
 
-		if disableCommandClose != nil {
+		if *disableCommandClose {
 			window.DisableCloseButton(hwnd)
 		}
-		if disableCommandMaximize != nil {
+		if *disableCommandMaximize {
 			window.DisableMaximizeButton(hwnd)
 		}
-		if disableCommandMenu != nil {
+		if *disableCommandMenu {
 			window.RemoveMenu(hwnd)
 		}
-		if disableCommandMinimize != nil {
+		if *disableCommandMinimize {
 			window.DisableMinimizeButton(hwnd)
 		}
 
@@ -74,13 +74,13 @@ func main() {
 			os.Exit(1)
 		}
 
-		if enableCommandClose != nil {
+		if *enableCommandClose {
 			window.EnableCloseButton(hwnd)
 		}
-		if enableCommandMaximize != nil {
+		if *enableCommandMaximize {
 			window.EnableMaximizeButton(hwnd)
 		}
-		if enableCommandMinimize != nil {
+		if *enableCommandMinimize {
 			window.EnableMinimizeButton(hwnd)
 		}
 
