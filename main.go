@@ -27,11 +27,18 @@ var (
 	hideCommand       = app.Command("hide", "Hide a window.")
 	hideCommandWindow = hideCommand.Arg("window", "Window Title").Required().String()
 
+	listCommand = app.Command("list", "List all window titles.")
+
 	maximizeCommand       = app.Command("maximize", "Maximize a window.")
 	maximizeCommandWindow = maximizeCommand.Arg("window", "Window Title").Required().String()
 
 	minimizeCommand       = app.Command("minimize", "Minimize a window.")
 	minimizeCommandWindow = minimizeCommand.Arg("window", "Window Title").Required().String()
+
+	moveCommand       = app.Command("move", "Move a window.")
+	moveCommandWindow = moveCommand.Arg("window", "Window Title").Required().String()
+	moveCommandX      = moveCommand.Flag("x", "X position").Required().Int()
+	moveCommandY      = moveCommand.Flag("y", "Y position").Required().Int()
 
 	restoreCommand       = app.Command("restore", "Restore a window to it's state before minimizing or maximizing.")
 	restoreCommandWindow = restoreCommand.Arg("window", "Window Title").Required().String()
@@ -94,6 +101,9 @@ func main() {
 
 		window.Hide(hwnd)
 
+	case listCommand.FullCommand():
+		window.PrintWindowTitles()
+
 	// Maximize Window
 	case maximizeCommand.FullCommand():
 		hwnd, err := window.GetWindowHandle(*maximizeCommandWindow)
@@ -113,6 +123,16 @@ func main() {
 		}
 
 		window.Minimize(hwnd)
+
+	// Move Window
+	case moveCommand.FullCommand():
+		hwnd, err := window.GetWindowHandle(*moveCommandWindow)
+		if err != nil {
+			println(err.Error())
+			os.Exit(1)
+		}
+
+		window.Move(hwnd, *moveCommandX, *moveCommandY)
 
 	// Restore Window
 	case restoreCommand.FullCommand():
