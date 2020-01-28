@@ -62,6 +62,7 @@ func GetWindowHandle(title string) (syscall.Handle, error) {
 	return hwnd, nil
 }
 
+// PrintWindowTitles outputs the title of all Windows to the console
 func PrintWindowTitles() {
 	printTitle := syscall.NewCallback(func(_hwnd syscall.Handle) uintptr {
 		// buffer to receive the window title
