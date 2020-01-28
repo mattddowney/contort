@@ -136,7 +136,7 @@ func main() {
 
 	// Restore Window
 	case restoreCommand.FullCommand():
-		hwnd, err := window.GetWindowHandle(*showCommandWindow)
+		hwnd, err := window.GetWindowHandle(*restoreCommandWindow)
 		if err != nil {
 			println(err.Error())
 			os.Exit(1)
