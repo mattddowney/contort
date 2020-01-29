@@ -16,9 +16,9 @@ var (
 	procGetWindowLongW  = user32.NewProc("GetWindowLongW")
 	procGetWindowTextW  = user32.NewProc("GetWindowTextW")
 	procIsWindowVisible = user32.NewProc("IsWindowVisible")
-	procMoveWindow      = user32.NewProc("MoveWindow")
 	procSetMenu         = user32.NewProc("SetMenu")
 	procSetWindowLongW  = user32.NewProc("SetWindowLongW")
+	procSetWindowPos    = user32.NewProc("SetWindowPos")
 	procShowWindow      = user32.NewProc("ShowWindow")
 )
 
