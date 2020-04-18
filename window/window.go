@@ -79,7 +79,9 @@ func PrintWindowTitles() {
 		// convert the buffer to a plain ole string
 		windowTitleString := syscall.UTF16ToString(windowTitleBuff)
 
-		fmt.Println(windowTitleString)
+		if len(windowTitleString) > 0 {
+			fmt.Println(windowTitleString)
+		}
 
 		// continue
 		return 1
