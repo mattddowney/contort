@@ -24,6 +24,7 @@ Usage
 usage: contort [<flags>] <command> [<args> ...]
 
 Modify the behavior and appearance of a window.
+https://github.com/mattddowney/contort
 
 Flags:
   --help     Show context-sensitive help (also try --help-long and --help-man).
