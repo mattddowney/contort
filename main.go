@@ -9,7 +9,10 @@ import (
 )
 
 var (
-	app = kingpin.New("contort", "Modify the behavior and appearance of a window.")
+	app = kingpin.New(
+		"contort",
+		"Modify the behavior and appearance of a window.\nhttps://github.com/mattddowney/contort",
+	)
 
 	disableCommand         = app.Command("disable", "Disable part of a window's GUI.")
 	disableCommandClose    = disableCommand.Flag("close", "Disable a window's close button.").Bool()
