@@ -32,7 +32,7 @@ func Minimize(hwnd syscall.Handle) {
 	procShowWindow.Call(uintptr(hwnd), 6)
 }
 
-// RemoveMenu removes the menu from the windo with the given hwnd window
+// RemoveMenu removes the menu from the window with the given hwnd window
 func RemoveMenu(hwnd syscall.Handle) {
 	procSetMenu.Call(uintptr(hwnd), uintptr(unsafe.Pointer(nil)))
 }
