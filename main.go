@@ -3,13 +3,13 @@ package main
 import (
 	"os"
 
-	"github.com/mattddowney/warpwin/window"
+	"github.com/mattddowney/contort/window"
 
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
 var (
-	app = kingpin.New("warpwin", "Modify the behavior and appearance of a window.")
+	app = kingpin.New("contort", "Modify the behavior and appearance of a window.")
 
 	disableCommand         = app.Command("disable", "Disable part of a window's GUI.")
 	disableCommandClose    = disableCommand.Flag("close", "Disable a window's close button.").Bool()

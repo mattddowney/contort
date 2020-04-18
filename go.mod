@@ -1,4 +1,4 @@
-module github.com/mattddowney/warpwin
+module github.com/mattddowney/contort
 
 go 1.12
 
