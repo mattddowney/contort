@@ -9,7 +9,7 @@ Examples
 
 Some of what you can do with contort...
 
-### Prevent a user from closing an application
+### Disable an application's close button
 
 Sometimes you want an application to run, but you don't want your users to be able to close it.
 
