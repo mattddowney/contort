@@ -43,6 +43,7 @@ Commands:
     --menu      Disable a window's menu bar. Once disabled, a window's menu bar
                 cannot be re-enabled.
     --minimize  Disable a window's minimize button.
+    --titlebar  Disable a window's titlebar.
 
   enable [<flags>] <window>
     Enable part of a window's GUI.
@@ -50,6 +51,7 @@ Commands:
     --close     Enable a window's close button.
     --maximize  Enable a window's maximize button.
     --minimize  Enable a window's minimize button.
+    --titlebar  Enable a window's titlebar.
 
   hide <window>
     Hide a window.

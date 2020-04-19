@@ -5,9 +5,10 @@ package window
 
 import "syscall"
 
-var (
-	maximizeButton = 0x00010000
-	minimizeButton = 0x00020000
+const (
+	maximizeButton = 0x00010000 // WS_MAXIMIZEBOX
+	minimizeButton = 0x00020000 // WS_MINIMIZEBOX
+	titlebar       = 0x00C00000 // WS_CAPTION
 )
 
 func addStyle(hwnd syscall.Handle, ws int) {
@@ -40,6 +41,12 @@ func DisableMinimizeButton(hwnd syscall.Handle) {
 	removeStyle(hwnd, minimizeButton)
 }
 
+// DisableTitlebar disables the titlebar on the window with the hwnd handle
+// It can be re-enabled by calling EnableTitlebar
+func DisableTitlebar(hwnd syscall.Handle) {
+	removeStyle(hwnd, titlebar)
+}
+
 // EnableMaximizeButton enables the maximize button on the window with the hwnd handle
 func EnableMaximizeButton(hwnd syscall.Handle) {
 	addStyle(hwnd, maximizeButton)
@@ -48,4 +55,9 @@ func EnableMaximizeButton(hwnd syscall.Handle) {
 // EnableMinimizeButton enables the minimize button on the window with the hwnd handle
 func EnableMinimizeButton(hwnd syscall.Handle) {
 	addStyle(hwnd, minimizeButton)
+}
+
+// EnableTitlebar enables the titlebar on the window with the hwnd handle
+func EnableTitlebar(hwnd syscall.Handle) {
+	addStyle(hwnd, titlebar)
 }

@@ -19,12 +19,14 @@ var (
 	disableCommandMaximize = disableCommand.Flag("maximize", "Disable a window's maximize button.").Bool()
 	disableCommandMenu     = disableCommand.Flag("menu", "Disable a window's menu bar. Once disabled, a window's menu bar cannot be re-enabled.").Bool()
 	disableCommandMinimize = disableCommand.Flag("minimize", "Disable a window's minimize button.").Bool()
+	disableCommandTitlebar = disableCommand.Flag("titlebar", "Disable a window's titlebar.").Bool()
 	disableCommandWindow   = disableCommand.Arg("window", "Window Title").Required().String()
 
 	enableCommand         = app.Command("enable", "Enable part of a window's GUI.")
 	enableCommandClose    = enableCommand.Flag("close", "Enable a window's close button.").Bool()
 	enableCommandMaximize = enableCommand.Flag("maximize", "Enable a window's maximize button.").Bool()
 	enableCommandMinimize = enableCommand.Flag("minimize", "Enable a window's minimize button.").Bool()
+	enableCommandTitlebar = enableCommand.Flag("titlebar", "Enable a window's titlebar.").Bool()
 	enableCommandWindow   = enableCommand.Arg("window", "Window Title").Required().String()
 
 	hideCommand       = app.Command("hide", "Hide a window.")
@@ -75,6 +77,9 @@ func main() {
 		if *disableCommandMinimize {
 			window.DisableMinimizeButton(hwnd)
 		}
+		if *disableCommandTitlebar {
+			window.DisableTitlebar(hwnd)
+		}
 
 	// Enable UI Items
 	case enableCommand.FullCommand():
@@ -92,6 +97,9 @@ func main() {
 		}
 		if *enableCommandMinimize {
 			window.EnableMinimizeButton(hwnd)
+		}
+		if *enableCommandTitlebar {
+			window.EnableTitlebar(hwnd)
 		}
 
 	// Hide Window
