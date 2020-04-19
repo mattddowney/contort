@@ -1,11 +1,10 @@
-// styles in this file referenced from here:
-// https://docs.microsoft.com/en-us/windows/desktop/winmsg/window-styles
-
 package window
 
 import "syscall"
 
 const (
+	// styles referenced from here:
+	// https://docs.microsoft.com/en-us/windows/desktop/winmsg/window-styles
 	maximizeButton = 0x00010000 // WS_MAXIMIZEBOX
 	minimizeButton = 0x00020000 // WS_MINIMIZEBOX
 	titlebar       = 0x00C00000 // WS_CAPTION
